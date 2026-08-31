@@ -1,0 +1,226 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hindi vocabulary test</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ground:#EDEAE4;--panel:#F7F5F1;--ink:#1B1A17;--muted:#6A655C;--rule:#C3BCB0;
+ --know:#2F6B4F;--partial:#A8702B;--unknown:#8C3A32;--flag:#4A5C8C;
+ --dev:"Noto Serif Devanagari","Nirmala UI","Kohinoor Devanagari",serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+ --sans:"IBM Plex Sans",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+ display:flex;justify-content:center;padding:26px 18px 60px}
+.wrap{width:100%;max-width:660px}
+.head{position:relative;height:3px;background:var(--rule)}
+.head .fill{position:absolute;left:0;top:0;height:3px;background:var(--ink);width:0;transition:width .18s}
+.meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
+ letter-spacing:.06em;color:var(--muted);padding-top:9px;text-transform:uppercase}
+.stage{padding:66px 0 48px;text-align:center}
+.word{font-family:var(--dev);font-size:72px;line-height:1.55;word-break:break-word}
+.hint{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:.05em}
+.choices{display:grid;gap:9px}
+.btn{border:1px solid var(--rule);background:var(--panel);color:var(--ink);font-family:var(--sans);
+ font-size:14.5px;text-align:left;padding:13px 15px;cursor:pointer;border-top-width:3px;
+ display:flex;gap:13px;align-items:baseline;width:100%}
+.btn:hover{background:#fff}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn .k{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:14px}
+.btn .lab{font-weight:600}.btn .sub{color:var(--muted);font-size:13px}
+.b2{border-top-color:var(--know)}.b1{border-top-color:var(--partial)}.b0{border-top-color:var(--unknown)}
+.foot{margin-top:20px;display:flex;justify-content:space-between;font-family:var(--mono);
+ font-size:11px;color:var(--muted)}
+.link{background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:11px;
+ cursor:pointer;text-decoration:underline;padding:0}
+h1{font-size:19px;font-weight:600;margin:0 0 6px}
+h2{font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;
+ color:var(--muted);font-weight:500;border-top:1px solid var(--rule);padding-top:8px;margin:28px 0 10px}
+p{font-size:14.5px;line-height:1.62;color:#2C2A25}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
+th{text-align:left;font-weight:500;color:var(--muted);border-bottom:1px solid var(--rule);
+ padding:6px 8px 6px 0;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+td{padding:6px 8px 6px 0;border-bottom:1px solid #DED8CE}
+td.n{text-align:right}
+.big{font-family:var(--mono);font-size:31px;font-weight:500;margin:4px 0 2px}
+.cap{font-size:12.5px;color:var(--muted);line-height:1.55}
+pre{background:var(--panel);border:1px solid var(--rule);border-top-width:3px;padding:13px;
+ font-family:var(--mono);font-size:11.5px;overflow-x:auto;white-space:pre-wrap;line-height:1.55}
+input[type=text]{width:100%;padding:11px 12px;font-family:var(--sans);font-size:15px;
+ border:1px solid var(--rule);border-top:3px solid var(--know);background:#fff;color:var(--ink)}
+.warn{border-top:3px solid var(--unknown);background:var(--panel);padding:12px 14px;margin:12px 0}
+.ok{border-top:3px solid var(--know);background:var(--panel);padding:12px 14px;margin:12px 0}
+.chip{display:inline-block;border:1px solid var(--rule);border-top:3px solid var(--flag);
+ background:var(--panel);padding:6px 10px;margin:3px 4px 3px 0;cursor:pointer;
+ font-family:var(--dev);font-size:15px}
+.chip.on{background:var(--flag);color:#fff}
+.dl{border:1px solid var(--ink);background:var(--ink);color:#fff;font-family:var(--sans);
+ font-size:14px;font-weight:600;padding:12px 18px;cursor:pointer;width:100%;margin-top:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:520px){.word{font-size:54px}.stage{padding:48px 0 36px}}
+</style></head><body><div class="wrap" id="app"></div>
+<script>
+const ITEMS=[{"i": 1, "w": "पानदान"}, {"i": 2, "w": "मारूँ"}, {"i": 3, "w": "दुकानें"}, {"i": 4, "w": "हाँडी"}, {"i": 5, "w": "बहू"}, {"i": 6, "w": "नीचे"}, {"i": 7, "w": "छोटी"}, {"i": 8, "w": "जाएँगे"}, {"i": 9, "w": "कथन"}, {"i": 10, "w": "घी"}, {"i": 11, "w": "पुलिस"}, {"i": 12, "w": "शाम"}, {"i": 13, "w": "मुझे"}, {"i": 14, "w": "मर्णयुवक"}, {"i": 15, "w": "आँख"}, {"i": 16, "w": "पूछनाक्त"}, {"i": 17, "w": "बन्तमता"}, {"i": 18, "w": "यंत्रसते"}, {"i": 19, "w": "समर्थन"}, {"i": 20, "w": "छिड़"}, {"i": 21, "w": "मुलासोस"}, {"i": 22, "w": "उत्पन्न"}, {"i": 23, "w": "भेदतों"}, {"i": 24, "w": "दादा"}, {"i": 25, "w": "बुढिया"}, {"i": 26, "w": "शृंगेग"}, {"i": 27, "w": "ठिकाना"}, {"i": 28, "w": "बतला"}, {"i": 29, "w": "नाम"}, {"i": 30, "w": "सर्वथा"}, {"i": 31, "w": "यह"}, {"i": 32, "w": "रोगों"}, {"i": 33, "w": "लौट"}, {"i": 34, "w": "मिज़ाज"}, {"i": 35, "w": "मिला"}, {"i": 36, "w": "वकील"}, {"i": 37, "w": "खड़ूर्न"}, {"i": 38, "w": "मजदूँगत"}, {"i": 39, "w": "छुपाकर"}, {"i": 40, "w": "भेजूँ"}, {"i": 41, "w": "युगंवाम"}, {"i": 42, "w": "ईश्वर"}, {"i": 43, "w": "श्रृं"}, {"i": 44, "w": "श्चाई"}, {"i": 45, "w": "सोयम"}, {"i": 46, "w": "अर्टेहूँ"}, {"i": 47, "w": "वाला"}, {"i": 48, "w": "गभूमि"}, {"i": 49, "w": "चेचक"}, {"i": 50, "w": "अवसूलतीं"}, {"i": 51, "w": "दारिआयाच"}, {"i": 52, "w": "विशुद्ध"}, {"i": 53, "w": "सेर"}, {"i": 54, "w": "मूँड़ते"}, {"i": 55, "w": "दलाली"}, {"i": 56, "w": "अंग्रेज़ी"}, {"i": 57, "w": "जात"}, {"i": 58, "w": "बल्कि"}, {"i": 59, "w": "सहते"}, {"i": 60, "w": "लोभागट"}, {"i": 61, "w": "कबूल"}, {"i": 62, "w": "सुलज्जे"}, {"i": 63, "w": "साधी"}, {"i": 64, "w": "यकीन"}, {"i": 65, "w": "बिरादरी"}, {"i": 66, "w": "जहाँ"}, {"i": 67, "w": "दिखा"}, {"i": 68, "w": "फसल्फ"}, {"i": 69, "w": "पूछेगी"}, {"i": 70, "w": "बैठीं"}, {"i": 71, "w": "वाह्मी"}, {"i": 72, "w": "रिश्वत"}, {"i": 73, "w": "बोझ"}, {"i": 74, "w": "हैसियत"}, {"i": 75, "w": "मानने"}, {"i": 76, "w": "त्यों"}, {"i": 77, "w": "रखती"}, {"i": 78, "w": "आपने"}, {"i": 79, "w": "हयाँधली"}, {"i": 80, "w": "रूकावट"}, {"i": 81, "w": "भीड़कर"}, {"i": 82, "w": "ज़ीभूमों"}, {"i": 83, "w": "तपस्या"}, {"i": 84, "w": "अंदाज़"}, {"i": 85, "w": "उग्र"}, {"i": 86, "w": "छोडूँगी"}, {"i": 87, "w": "जड़ाऊ"}, {"i": 88, "w": "कुशल"}, {"i": 89, "w": "कभी"}, {"i": 90, "w": "घुसकर"}, {"i": 91, "w": "बाबू"}, {"i": 92, "w": "धूमार"}, {"i": 93, "w": "जजों"}, {"i": 94, "w": "तमाशे"}, {"i": 95, "w": "बहसाबीती"}, {"i": 96, "w": "भिजवा"}, {"i": 97, "w": "अमरीका"}, {"i": 98, "w": "लटके"}, {"i": 99, "w": "खैर"}, {"i": 100, "w": "साइत"}, {"i": 101, "w": "कह"}, {"i": 102, "w": "अंधेरा"}, {"i": 103, "w": "हुए"}, {"i": 104, "w": "उठें"}, {"i": 105, "w": "वालक्रे"}, {"i": 106, "w": "चोरी"}, {"i": 107, "w": "दुश्मन"}, {"i": 108, "w": "पत्रों"}, {"i": 109, "w": "मनोरंजन"}, {"i": 110, "w": "मंडली"}, {"i": 111, "w": "स्मृतियों"}, {"i": 112, "w": "अखबराते"}, {"i": 113, "w": "रहता"}, {"i": 114, "w": "ज्वाला"}, {"i": 115, "w": "सका"}, {"i": 116, "w": "सुरक्षित"}, {"i": 117, "w": "चाहती"}, {"i": 118, "w": "गे"}, {"i": 119, "w": "जीने"}, {"i": 120, "w": "खाते"}, {"i": 121, "w": "आदरियोर"}, {"i": 122, "w": "खबर"}, {"i": 123, "w": "हमत्र"}, {"i": 124, "w": "सिखाएगी"}, {"i": 125, "w": "लगाना"}, {"i": 126, "w": "घामने"}, {"i": 127, "w": "ज़हर"}, {"i": 128, "w": "अनुमति"}, {"i": 129, "w": "बेच"}, {"i": 130, "w": "पाकीजा"}, {"i": 131, "w": "गरदन"}, {"i": 132, "w": "हाँ"}, {"i": 133, "w": "आकर"}, {"i": 134, "w": "खींच"}, {"i": 135, "w": "छेड़कर"}, {"i": 136, "w": "भैया"}, {"i": 137, "w": "खेलता"}, {"i": 138, "w": "सखीसहेलियाँ"}, {"i": 139, "w": "दूकान"}, {"i": 140, "w": "थे"}, {"i": 141, "w": "देर"}, {"i": 142, "w": "उखाड़ने"}, {"i": 143, "w": "रुँधे"}, {"i": 144, "w": "होते"}, {"i": 145, "w": "लोग"}, {"i": 146, "w": "लुकछिपकर"}, {"i": 147, "w": "सुपकता"}, {"i": 148, "w": "बड़ी"}, {"i": 149, "w": "फिरफदारी"}, {"i": 150, "w": "दशा"}, {"i": 151, "w": "लखनवी"}, {"i": 152, "w": "बेगुनाहों"}, {"i": 153, "w": "सम्पत्ति"}, {"i": 154, "w": "जाम"}, {"i": 155, "w": "हज़रूद"}, {"i": 156, "w": "ऊब"}, {"i": 157, "w": "लाचार"}, {"i": 158, "w": "निःशंकना"}, {"i": 159, "w": "हाबड़ा"}, {"i": 160, "w": "हज़ार"}, {"i": 161, "w": "लड़के"}, {"i": 162, "w": "तिरस्कार"}, {"i": 163, "w": "भूलूँगा"}, {"i": 164, "w": "मुँह"}, {"i": 165, "w": "सांपतली"}, {"i": 166, "w": "दृष्टि"}, {"i": 167, "w": "आएँ"}, {"i": 168, "w": "नीयत"}, {"i": 169, "w": "किसके"}, {"i": 170, "w": "पत्र"}, {"i": 171, "w": "विल्लीली"}, {"i": 172, "w": "धड़कते"}, {"i": 173, "w": "म्रपा"}, {"i": 174, "w": "माँगे"}, {"i": 175, "w": "दमकाशाए"}, {"i": 176, "w": "प्रतिष्ण"}, {"i": 177, "w": "त्याग"}, {"i": 178, "w": "प्रणाम"}, {"i": 179, "w": "चंद्रमा"}, {"i": 180, "w": "बड़ाई"}, {"i": 181, "w": "तमाशा"}, {"i": 182, "w": "दिन"}, {"i": 183, "w": "भोगता"}, {"i": 184, "w": "मनम्भाव"}, {"i": 185, "w": "आंतरिक"}, {"i": 186, "w": "मोल"}, {"i": 187, "w": "मावटे"}, {"i": 188, "w": "दिया"}, {"i": 189, "w": "अब"}, {"i": 190, "w": "सख्त"}, {"i": 191, "w": "खुर्कार"}, {"i": 192, "w": "गन"}, {"i": 193, "w": "उन्नति"}, {"i": 194, "w": "अदृढ़ती"}, {"i": 195, "w": "पीती"}, {"i": 196, "w": "कान"}, {"i": 197, "w": "इस"}, {"i": 198, "w": "ठोंककर"}, {"i": 199, "w": "अवसर"}, {"i": 200, "w": "पंडित"}], KEY=[{"i": 1, "b": "D", "r": 1, "tf": 1}, {"i": 2, "b": "D", "r": 1, "tf": 1}, {"i": 3, "b": "D", "r": 1, "tf": 1}, {"i": 4, "b": "D", "r": 1, "tf": 1}, {"i": 5, "b": "A", "r": 1, "tf": 48}, {"i": 6, "b": "A", "r": 1, "tf": 58}, {"i": 7, "b": "B", "r": 1, "tf": 15}, {"i": 8, "b": "A", "r": 1, "tf": 58}, {"i": 9, "b": "C", "r": 1, "tf": 2}, {"i": 10, "b": "C", "r": 1, "tf": 5}, {"i": 11, "b": "A", "r": 1, "tf": 143}, {"i": 12, "b": "A", "r": 1, "tf": 34}, {"i": 13, "b": "A", "r": 1, "tf": 377}, {"i": 14, "b": "X", "r": 0, "tf": 0}, {"i": 15, "b": "B", "r": 1, "tf": 17}, {"i": 16, "b": "X", "r": 0, "tf": 0}, {"i": 17, "b": "X", "r": 0, "tf": 0}, {"i": 18, "b": "X", "r": 0, "tf": 0}, {"i": 19, "b": "C", "r": 1, "tf": 3}, {"i": 20, "b": "D", "r": 1, "tf": 1}, {"i": 21, "b": "X", "r": 0, "tf": 0}, {"i": 22, "b": "B", "r": 1, "tf": 8}, {"i": 23, "b": "X", "r": 0, "tf": 0}, {"i": 24, "b": "A", "r": 1, "tf": 54}, {"i": 25, "b": "A", "r": 1, "tf": 55}, {"i": 26, "b": "X", "r": 0, "tf": 0}, {"i": 27, "b": "B", "r": 1, "tf": 8}, {"i": 28, "b": "B", "r": 1, "tf": 8}, {"i": 29, "b": "A", "r": 1, "tf": 73}, {"i": 30, "b": "C", "r": 1, "tf": 3}, {"i": 31, "b": "A", "r": 1, "tf": 742}, {"i": 32, "b": "D", "r": 1, "tf": 1}, {"i": 33, "b": "A", "r": 1, "tf": 31}, {"i": 34, "b": "B", "r": 1, "tf": 9}, {"i": 35, "b": "A", "r": 1, "tf": 41}, {"i": 36, "b": "A", "r": 1, "tf": 98}, {"i": 37, "b": "X", "r": 0, "tf": 0}, {"i": 38, "b": "X", "r": 0, "tf": 0}, {"i": 39, "b": "D", "r": 1, "tf": 1}, {"i": 40, "b": "D", "r": 1, "tf": 1}, {"i": 41, "b": "X", "r": 0, "tf": 0}, {"i": 42, "b": "A", "r": 1, "tf": 39}, {"i": 43, "b": "D", "r": 1, "tf": 1}, {"i": 44, "b": "X", "r": 0, "tf": 0}, {"i": 45, "b": "D", "r": 1, "tf": 1}, {"i": 46, "b": "X", "r": 0, "tf": 0}, {"i": 47, "b": "A", "r": 1, "tf": 35}, {"i": 48, "b": "D", "r": 1, "tf": 1}, {"i": 49, "b": "D", "r": 1, "tf": 1}, {"i": 50, "b": "X", "r": 0, "tf": 0}, {"i": 51, "b": "X", "r": 0, "tf": 0}, {"i": 52, "b": "D", "r": 1, "tf": 2}, {"i": 53, "b": "B", "r": 1, "tf": 9}, {"i": 54, "b": "D", "r": 1, "tf": 1}, {"i": 55, "b": "C", "r": 1, "tf": 3}, {"i": 56, "b": "C", "r": 1, "tf": 3}, {"i": 57, "b": "C", "r": 1, "tf": 2}, {"i": 58, "b": "B", "r": 1, "tf": 11}, {"i": 59, "b": "C", "r": 1, "tf": 3}, {"i": 60, "b": "X", "r": 0, "tf": 0}, {"i": 61, "b": "C", "r": 1, "tf": 2}, {"i": 62, "b": "X", "r": 0, "tf": 0}, {"i": 63, "b": "D", "r": 1, "tf": 1}, {"i": 64, "b": "C", "r": 1, "tf": 4}, {"i": 65, "b": "C", "r": 1, "tf": 6}, {"i": 66, "b": "A", "r": 1, "tf": 44}, {"i": 67, "b": "B", "r": 1, "tf": 18}, {"i": 68, "b": "X", "r": 0, "tf": 0}, {"i": 69, "b": "C", "r": 1, "tf": 2}, {"i": 70, "b": "D", "r": 1, "tf": 1}, {"i": 71, "b": "X", "r": 0, "tf": 0}, {"i": 72, "b": "B", "r": 1, "tf": 12}, {"i": 73, "b": "B", "r": 1, "tf": 24}, {"i": 74, "b": "C", "r": 1, "tf": 4}, {"i": 75, "b": "C", "r": 1, "tf": 4}, {"i": 76, "b": "C", "r": 1, "tf": 4}, {"i": 77, "b": "C", "r": 1, "tf": 7}, {"i": 78, "b": "A", "r": 1, "tf": 31}, {"i": 79, "b": "X", "r": 0, "tf": 0}, {"i": 80, "b": "D", "r": 1, "tf": 1}, {"i": 81, "b": "X", "r": 0, "tf": 0}, {"i": 82, "b": "X", "r": 0, "tf": 0}, {"i": 83, "b": "C", "r": 1, "tf": 5}, {"i": 84, "b": "D", "r": 1, "tf": 1}, {"i": 85, "b": "D", "r": 1, "tf": 1}, {"i": 86, "b": "C", "r": 1, "tf": 2}, {"i": 87, "b": "B", "r": 1, "tf": 12}, {"i": 88, "b": "B", "r": 1, "tf": 12}, {"i": 89, "b": "A", "r": 1, "tf": 232}, {"i": 90, "b": "C", "r": 1, "tf": 3}, {"i": 91, "b": "A", "r": 1, "tf": 110}, {"i": 92, "b": "X", "r": 0, "tf": 0}, {"i": 93, "b": "D", "r": 1, "tf": 1}, {"i": 94, "b": "B", "r": 1, "tf": 8}, {"i": 95, "b": "X", "r": 0, "tf": 0}, {"i": 96, "b": "C", "r": 1, "tf": 5}, {"i": 97, "b": "D", "r": 1, "tf": 1}, {"i": 98, "b": "D", "r": 1, "tf": 1}, {"i": 99, "b": "C", "r": 1, "tf": 3}, {"i": 100, "b": "D", "r": 1, "tf": 1}, {"i": 101, "b": "A", "r": 1, "tf": 186}, {"i": 102, "b": "B", "r": 1, "tf": 7}, {"i": 103, "b": "A", "r": 1, "tf": 295}, {"i": 104, "b": "C", "r": 1, "tf": 3}, {"i": 105, "b": "X", "r": 0, "tf": 0}, {"i": 106, "b": "B", "r": 1, "tf": 19}, {"i": 107, "b": "C", "r": 1, "tf": 5}, {"i": 108, "b": "B", "r": 1, "tf": 10}, {"i": 109, "b": "B", "r": 1, "tf": 9}, {"i": 110, "b": "C", "r": 1, "tf": 3}, {"i": 111, "b": "D", "r": 1, "tf": 2}, {"i": 112, "b": "X", "r": 0, "tf": 0}, {"i": 113, "b": "A", "r": 1, "tf": 34}, {"i": 114, "b": "C", "r": 1, "tf": 2}, {"i": 115, "b": "B", "r": 1, "tf": 24}, {"i": 116, "b": "D", "r": 1, "tf": 2}, {"i": 117, "b": "A", "r": 1, "tf": 54}, {"i": 118, "b": "B", "r": 1, "tf": 21}, {"i": 119, "b": "B", "r": 1, "tf": 14}, {"i": 120, "b": "B", "r": 1, "tf": 19}, {"i": 121, "b": "X", "r": 0, "tf": 0}, {"i": 122, "b": "B", "r": 1, "tf": 10}, {"i": 123, "b": "X", "r": 0, "tf": 0}, {"i": 124, "b": "D", "r": 1, "tf": 1}, {"i": 125, "b": "C", "r": 1, "tf": 4}, {"i": 126, "b": "C", "r": 1, "tf": 2}, {"i": 127, "b": "C", "r": 1, "tf": 4}, {"i": 128, "b": "C", "r": 1, "tf": 2}, {"i": 129, "b": "B", "r": 1, "tf": 12}, {"i": 130, "b": "D", "r": 1, "tf": 1}, {"i": 131, "b": "B", "r": 1, "tf": 7}, {"i": 132, "b": "A", "r": 1, "tf": 169}, {"i": 133, "b": "A", "r": 1, "tf": 82}, {"i": 134, "b": "B", "r": 1, "tf": 8}, {"i": 135, "b": "D", "r": 1, "tf": 1}, {"i": 136, "b": "A", "r": 1, "tf": 54}, {"i": 137, "b": "C", "r": 1, "tf": 5}, {"i": 138, "b": "D", "r": 1, "tf": 1}, {"i": 139, "b": "B", "r": 1, "tf": 16}, {"i": 140, "b": "A", "r": 1, "tf": 463}, {"i": 141, "b": "A", "r": 1, "tf": 75}, {"i": 142, "b": "D", "r": 1, "tf": 1}, {"i": 143, "b": "D", "r": 1, "tf": 2}, {"i": 144, "b": "A", "r": 1, "tf": 75}, {"i": 145, "b": "A", "r": 1, "tf": 92}, {"i": 146, "b": "D", "r": 1, "tf": 1}, {"i": 147, "b": "X", "r": 0, "tf": 0}, {"i": 148, "b": "C", "r": 1, "tf": 7}, {"i": 149, "b": "X", "r": 0, "tf": 0}, {"i": 150, "b": "A", "r": 1, "tf": 59}, {"i": 151, "b": "D", "r": 1, "tf": 1}, {"i": 152, "b": "B", "r": 1, "tf": 9}, {"i": 153, "b": "B", "r": 1, "tf": 13}, {"i": 154, "b": "C", "r": 1, "tf": 2}, {"i": 155, "b": "X", "r": 0, "tf": 0}, {"i": 156, "b": "C", "r": 1, "tf": 4}, {"i": 157, "b": "C", "r": 1, "tf": 4}, {"i": 158, "b": "X", "r": 0, "tf": 0}, {"i": 159, "b": "D", "r": 1, "tf": 1}, {"i": 160, "b": "A", "r": 1, "tf": 45}, {"i": 161, "b": "B", "r": 1, "tf": 24}, {"i": 162, "b": "B", "r": 1, "tf": 8}, {"i": 163, "b": "D", "r": 1, "tf": 1}, {"i": 164, "b": "A", "r": 1, "tf": 181}, {"i": 165, "b": "X", "r": 0, "tf": 0}, {"i": 166, "b": "B", "r": 1, "tf": 9}, {"i": 167, "b": "B", "r": 1, "tf": 8}, {"i": 168, "b": "B", "r": 1, "tf": 9}, {"i": 169, "b": "B", "r": 1, "tf": 15}, {"i": 170, "b": "A", "r": 1, "tf": 60}, {"i": 171, "b": "X", "r": 0, "tf": 0}, {"i": 172, "b": "D", "r": 1, "tf": 1}, {"i": 173, "b": "X", "r": 0, "tf": 0}, {"i": 174, "b": "B", "r": 1, "tf": 15}, {"i": 175, "b": "X", "r": 0, "tf": 0}, {"i": 176, "b": "X", "r": 0, "tf": 0}, {"i": 177, "b": "B", "r": 1, "tf": 11}, {"i": 178, "b": "D", "r": 1, "tf": 1}, {"i": 179, "b": "C", "r": 1, "tf": 2}, {"i": 180, "b": "C", "r": 1, "tf": 3}, {"i": 181, "b": "B", "r": 1, "tf": 12}, {"i": 182, "b": "A", "r": 1, "tf": 251}, {"i": 183, "b": "D", "r": 1, "tf": 1}, {"i": 184, "b": "X", "r": 0, "tf": 0}, {"i": 185, "b": "D", "r": 1, "tf": 1}, {"i": 186, "b": "B", "r": 1, "tf": 9}, {"i": 187, "b": "X", "r": 0, "tf": 0}, {"i": 188, "b": "A", "r": 1, "tf": 358}, {"i": 189, "b": "A", "r": 1, "tf": 339}, {"i": 190, "b": "C", "r": 1, "tf": 3}, {"i": 191, "b": "X", "r": 0, "tf": 0}, {"i": 192, "b": "A", "r": 1, "tf": 66}, {"i": 193, "b": "D", "r": 1, "tf": 1}, {"i": 194, "b": "X", "r": 0, "tf": 0}, {"i": 195, "b": "C", "r": 1, "tf": 2}, {"i": 196, "b": "B", "r": 1, "tf": 19}, {"i": 197, "b": "A", "r": 1, "tf": 473}, {"i": 198, "b": "C", "r": 1, "tf": 3}, {"i": 199, "b": "A", "r": 1, "tf": 41}, {"i": 200, "b": "C", "r": 1, "tf": 2}], M={"counts": {"A": 500, "B": 1000, "C": 2500, "D": 4224}, "tok_by_band": {"A": 79123, "B": 14054, "C": 9034, "D": 4806}, "total_tokens": 107017, "frame_types": 8224, "corpus_tokens": 109364};
+const keyOf={}; KEY.forEach(k=>keyOf[k.i]=k);
+let idx=0; const ans={}, rt={}; let shown=Date.now();
+let vIdx=0, vList=[], vAns={}; const disputed=new Set();
+const app=document.getElementById('app');
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+
+function judge(){
+  const it=ITEMS[idx]; shown=Date.now();
+  app.innerHTML=`<div class="head"><div class="fill" style="width:${idx/ITEMS.length*100}%"></div></div>
+   <div class="meta"><span>Item ${idx+1} / ${ITEMS.length}</span><span>Round 1 &middot; judging</span></div>
+   <div class="stage"><div class="word">${esc(it.w)}</div>
+     <div class="hint">Press 2, 1 or 0 &middot; Backspace to go back</div></div>
+   <div class="choices">
+     <button class="btn b2" data-s="2"><span class="k">2</span><span><span class="lab">I know it</span><br>
+       <span class="sub">I could write a definition now, and will be asked to.</span></span></button>
+     <button class="btn b1" data-s="1"><span class="k">1</span><span><span class="lab">Partly</span><br>
+       <span class="sub">Seen it, or can guess from its parts, but could not define it.</span></span></button>
+     <button class="btn b0" data-s="0"><span class="k">0</span><span><span class="lab">No</span><br>
+       <span class="sub">Could be an invented word for all I can tell.</span></span></button>
+   </div>
+   <div class="foot"><span>${Object.keys(ans).length} recorded</span>
+     <button class="link" id="back">&larr; previous</button></div>`;
+  document.querySelectorAll('.btn').forEach(b=>b.onclick=()=>score(+b.dataset.s));
+  document.getElementById('back').onclick=back;
+}
+function score(s){rt[ITEMS[idx].i]=Date.now()-shown; ans[ITEMS[idx].i]=s; idx++;
+  idx>=ITEMS.length?startVerify():judge();}
+function back(){if(idx>0){idx--; delete ans[ITEMS[idx].i]; delete rt[ITEMS[idx].i]; judge();}}
+document.addEventListener('keydown',e=>{
+  if(idx>=ITEMS.length)return;
+  if(['0','1','2'].includes(e.key)){e.preventDefault();score(+e.key);}
+  if(e.key==='Backspace'){e.preventDefault();back();}});
+
+function startVerify(){
+  const cl=ITEMS.filter(x=>ans[x.i]===2);
+  const pick=(a,n)=>a.sort(()=>Math.random()-0.5).slice(0,n);
+  vList=pick(cl.filter(x=>keyOf[x.i].r===0),8)
+    .concat(pick(cl.filter(x=>keyOf[x.i].r===1&&['C','D'].includes(keyOf[x.i].b)),10),
+            pick(cl.filter(x=>keyOf[x.i].r===1&&['A','B'].includes(keyOf[x.i].b)),4))
+    .sort(()=>Math.random()-0.5);
+  vIdx=0; vList.length?verify():results();
+}
+function verify(){
+  const it=vList[vIdx];
+  app.innerHTML=`<div class="head"><div class="fill" style="width:${vIdx/vList.length*100}%"></div></div>
+   <div class="meta"><span>Check ${vIdx+1} / ${vList.length}</span><span>Round 2 &middot; verification</span></div>
+   <div class="stage" style="padding-bottom:24px"><div class="word">${esc(it.w)}</div></div>
+   <p class="cap" style="text-align:center;margin:0 0 14px">You marked this "I know it."
+     Write the meaning in a few words &mdash; English or Hindi.</p>
+   <input type="text" id="g" autocomplete="off" spellcheck="false" placeholder="meaning...">
+   <div class="choices" style="margin-top:9px">
+     <button class="btn b2" id="next"><span class="k">&crarr;</span><span><span class="lab">Submit</span></span></button>
+     <button class="btn b0" id="cant"><span class="k">&mdash;</span><span>
+       <span class="lab">Actually, I can't define it</span><br>
+       <span class="sub">Downgrades this item. No penalty for honesty.</span></span></button>
+   </div>`;
+  const inp=document.getElementById('g'); inp.focus();
+  const go=()=>{vAns[it.i]=inp.value.trim(); vIdx++; vIdx>=vList.length?results():verify();};
+  document.getElementById('next').onclick=go;
+  document.getElementById('cant').onclick=()=>{vAns[it.i]=''; vIdx++; vIdx>=vList.length?results():verify();};
+  inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go();}};
+}
+function wilson(k,n){if(!n)return[0,0];const z=1.96,p=k/n,d=1+z*z/n,
+  c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[Math.max(0,c-h),Math.min(1,c+h)];}
+function ninv(p){const a=[-39.696830286653757,220.94609842452050,-275.92851044696869,138.35775186726900,-30.664798066147159,2.5066282774592392],
+ b=[-54.476098798224058,161.58583685804089,-155.69897985988661,66.801311887719720,-13.280681552885721],
+ c=[-0.0077848940024302926,-0.32239645804113648,-2.4007582771618381,-2.5497325393437338,4.3746641414649678,2.9381639826987831];
+ if(p<0.02425){const q=Math.sqrt(-2*Math.log(p));
+  return(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((1.0*q+2.4451344736815091)*q+3.7544086619074162)*q+2.4459557101036991)*q+1);}
+ if(p>1-0.02425)return -ninv(1-p);
+ const q=p-0.5,r=q*q;
+ return(((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);}
+
+function results(){
+  const bands=['A','B','C','D'];
+  const names={A:'Gaban rank 1-500',B:'rank 501-1,500',C:'rank 1,501-4,000',D:'rank 4,001+'};
+  const eff=i=>(ans[i]===2&&i in vAns&&vAns[i]==='')?1:ans[i];
+  const foils=ITEMS.filter(x=>keyOf[x.i].r===0&&!disputed.has(x.i));
+  const reals=ITEMS.filter(x=>keyOf[x.i].r===1);
+  const fa2=foils.filter(x=>eff(x.i)===2).length, fa1=foils.filter(x=>eff(x.i)>=1).length;
+  const g2=foils.length?fa2/foils.length:0, g1=foils.length?fa1/foils.length:0;
+  const hit=reals.filter(x=>eff(x.i)===2).length/reals.length;
+  const adj=(p,n)=>Math.min(Math.max(p,1/(2*n)),1-1/(2*n));
+  const dp=ninv(adj(hit,reals.length))-ninv(adj(g2,Math.max(foils.length,1)));
+
+  const rows=[]; let types=0,typesC=0,lo=0,hi=0,cov=0,covC=0;
+  bands.forEach(b=>{
+    const s=reals.filter(x=>keyOf[x.i].b===b).map(x=>eff(x.i));
+    const n=s.length,k=s.filter(v=>v===2).length,p=k/n;
+    const pc=g2<1?Math.max(0,(p-g2)/(1-g2)):p;
+    const pr=s.filter(v=>v>=1).length/n;
+    const [a,z]=wilson(k,n);
+    rows.push({b,n,size:M.counts[b],tok:M.tok_by_band[b],p,pc,pr});
+    types+=M.counts[b]*p; typesC+=M.counts[b]*pc;
+    lo+=M.counts[b]*a; hi+=M.counts[b]*z;
+    cov+=M.tok_by_band[b]*p; covC+=M.tok_by_band[b]*pc;   // TOKEN coverage
+  });
+  const covPct=cov/M.total_tokens, covPctC=covC/M.total_tokens;
+  const times=Object.values(rt).sort((x,y)=>x-y), med=times[Math.floor(times.length/2)];
+  const fast=times.filter(t=>t<600).length;
+  const gf=Object.keys(vAns).filter(i=>vAns[i]==='').length, gn=Object.keys(vAns).length;
+  const gr=gn?gf/gn:0, quality=dp>=2&&gr<=0.25, rushed=fast>times.length*0.25;
+
+  const payload={version:'hindi-vocab-1',frame:{types:M.frame_types,tokens:M.total_tokens,
+      corpus_tokens:M.corpus_tokens,counts:M.counts,tok_by_band:M.tok_by_band},
+    items:ITEMS.map(x=>({id:x.i,word:x.w,band:keyOf[x.i].b,is_real:!!keyOf[x.i].r,
+      gaban_freq:keyOf[x.i].tf,score:ans[x.i],score_effective:eff(x.i),
+      rt_ms:rt[x.i]??null,gloss:(x.i in vAns)?vAns[x.i]:null,
+      verified:(x.i in vAns),disputed:disputed.has(x.i)})),
+    validity:{d_prime:dp,hit_rate:hit,false_alarm_2:g2,false_alarm_1:g1,
+      median_rt_ms:med,fast_responses:fast,gloss_failures:gf,gloss_checked:gn,
+      disputed_foils:disputed.size,passed:quality},
+    estimates:{types_known:types,types_known_corrected:typesC,ci_low:lo,ci_high:hi,
+      token_coverage:covPct,token_coverage_corrected:covPctC}};
+
+  const bad=foils.filter(x=>eff(x.i)>=1);
+  app.innerHTML=`<div class="head"><div class="fill" style="width:100%"></div></div>
+   <div class="meta"><span>Complete</span><span>${ITEMS.length} judged &middot; ${gn} verified</span></div>
+   <div style="padding-top:28px">
+   <h1>Your Hindi vocabulary result</h1>
+   <div class="big">${(covPctC*100).toFixed(1)}%</div>
+   <p class="cap">of the ${fmt(M.corpus_tokens)} running words in <i>Gaban</i> you can read,
+     guessing-corrected. You know an estimated ${fmt(typesC)} of its ${fmt(M.frame_types)}
+     distinct wordforms (95% CI ${fmt(lo)}&ndash;${fmt(hi)}). The gap between those two
+     numbers is Zipf's law.</p>
+   <div class="${quality?'ok':'warn'}">
+     <b>${quality?'Validity check passed.':'Validity check failed \u2014 do not report this run.'}</b>
+     <p class="cap" style="margin:6px 0 0">d&prime; = <b>${dp.toFixed(2)}</b>
+       (${dp>=2?'good':'below the 2.0 threshold'}) &middot; ${fa2}/${foils.length} invented
+       words claimed as known &middot; ${gf}/${gn} claimed words you could not define
+       (${(gr*100).toFixed(0)}%, threshold 25%).</p>
+     ${rushed?`<p class="cap" style="margin:8px 0 0"><b>Pace warning:</b> ${fast} of ${times.length}
+       answers under 600 ms (median ${med} ms).</p>`:''}
+   </div>
+   <h2>By within-novel frequency band</h2>
+   <table><tr><th>Band</th><th class="n">Types</th><th class="n">Tokens</th><th class="n">n</th>
+     <th class="n">Known</th><th class="n">Corrected</th></tr>
+     ${rows.map(r=>`<tr><td>${names[r.b]}</td><td class="n">${fmt(r.size)}</td>
+     <td class="n">${fmt(r.tok)}</td><td class="n">${r.n}</td>
+     <td class="n">${r.p.toFixed(3)}</td><td class="n">${r.pc.toFixed(3)}</td></tr>`).join('')}
+   </table>
+   <h2>Disputed foils</h2>
+   <p class="cap">Invented strings you marked as known. The generator samples Devanagari
+     trigrams and can accidentally produce a real word. Tap any that are genuinely real;
+     they leave the foil set and everything recomputes.</p>
+   ${bad.length?`<div>${bad.map(x=>`<span class="chip${disputed.has(x.i)?' on':''}"
+     data-i="${x.i}">${esc(x.w)}</span>`).join('')}</div>`
+     :`<p class="cap">None \u2014 clean discrimination.</p>`}
+   <h2>Export</h2>
+   <p class="cap">Download <code>hindi-vocab-results.json</code> and put it next to the notebook.</p>
+   <button class="dl" id="dl">Download hindi-vocab-results.json</button>
+   <div class="foot"><span>&nbsp;</span><button class="link" id="again">start over</button></div></div>`;
+  document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+    const i=+c.dataset.i; disputed.has(i)?disputed.delete(i):disputed.add(i); results();});
+  document.getElementById('again').onclick=()=>{idx=0;vIdx=0;vList=[];disputed.clear();
+    Object.keys(ans).forEach(k=>delete ans[k]);Object.keys(vAns).forEach(k=>delete vAns[k]);judge();};
+  document.getElementById('dl').onclick=()=>{
+    const bl=new Blob([JSON.stringify(payload,null,1)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(bl);
+    a.download='hindi-vocab-results.json';a.click();};
+}
+judge();
+</script></body></html>
