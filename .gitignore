@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Tool caches
+.ruff_cache/
+.pytest_cache/
+
+# Generated outputs
+predictions.txt
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Course texts (see note below)
+hobbit.txt
+lostworld.txt
